@@ -1,9 +1,10 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import Welcome from '../pages/Welcome'
-import SignIn from '../pages/SignIn'
-import Register from '../pages/Register'
+import Login from '../pages/login'
+//import Register from '../pages/cadastro'
 import Home from '../pages/Home'
+import Cadastro from '../pages/cadastro'
 
 const Stack = createNativeStackNavigator();
 
@@ -16,13 +17,13 @@ export default function Routes(){
                 options={{headerShown: false }}
             />
             <Stack.Screen
-                name='SignIn'
-                component={SignIn}
+                name='login'
+                component={Login}
                 options={{headerShown: false }}
             />
             <Stack.Screen
-                name='Register'
-                component={Register}
+                name='cadastro'
+                component={Cadastro}
                 options={{headerShown: false }}
             />
             <Stack.Screen
