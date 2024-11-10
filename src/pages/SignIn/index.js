@@ -45,7 +45,7 @@ export default function Welcome(){
                 <TouchableOpacity
                     style={styles.buttonRegister}
                     onPress={()=>
-                        navigation.navigate('cadastro')
+                        navigation.navigate('Register')
                     }
                 >
                     <Text style={styles.registerText}>Não possui conta? Cadastre-se</Text>
