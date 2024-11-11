@@ -10,7 +10,7 @@ import {
    Dimensions 
 } from 'react-native';
 //import Logo from '../../assets/img/logouni.png'
-import {MaterialIcons} from '@expo/vector-icons';
+import {MaterialIcons, FontAwesome} from '@expo/vector-icons';
 export default function Cadastro(){
     return(
    <View style={styles.container}>
@@ -35,8 +35,8 @@ export default function Cadastro(){
         <TextInput
          style={styles.input}
         />
-        <MaterialIcons
-        name='key'
+        <FontAwesome
+        name='check-square'
         size={20}
         color={themas.colors.primary}
         />
@@ -60,6 +60,18 @@ export default function Cadastro(){
         />
         <MaterialIcons
         name='remove-red-eye'
+        size={20}
+        color={themas.colors.primary}
+        />
+    </View>
+
+    <Text style={styles.titleInput}>Nome</Text>
+    <View style={styles.boxInput}>       
+        <TextInput
+         style={styles.input}
+        />
+        <FontAwesome
+        name='user'
         size={20}
         color={themas.colors.primary}
         />
@@ -103,7 +115,7 @@ const styles = StyleSheet.create({
         width:'100%',
         //backgroundColor:'#000000',
         paddingHorizontal:30,
-        paddingVertical:5,
+        paddingVertical:10,
         
         
     },
@@ -112,12 +124,20 @@ const styles = StyleSheet.create({
         width:'100%',
         //backgroundColor:'green',
         alignItems:'center',
-        justifyContent:'flex-end'
-        
+        justifyContent:'flex-end',
+
     },
+
     rodacadastro:{
-       width:'100%',
-        height:Dimensions.get('window').height/12,
+        height:540,
+        width: 160,
+        marginTop: 560,
+        position: "absolute",
+        top: 1,
+        right: 200
+       //width:'100%',
+        //height:Dimensions.get('window').height/12,
+        //height:'100%'
         
     },
     text:{
@@ -130,7 +150,7 @@ const styles = StyleSheet.create({
     titleInput:{
         marginLeft:3,
         color:themas.colors.gray,
-        marginTop:20,
+        marginTop:10,
         fontSize:16
     },
     boxInput:{
