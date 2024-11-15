@@ -126,8 +126,15 @@ const styles = StyleSheet.create({
         justifyContent:'flex-end'
     },
     rodalogin:{
-       width:'100%',
-        height:Dimensions.get('window').height/17,
+        height:100,
+        width: 160,
+        marginTop: 545,
+        position: "absolute",
+        top: 1,
+        right: 200
+       //width:,
+        //height:Dimensions.get('window').height/17,
+        
     },
     text:{
         fontWeight:'bold',
