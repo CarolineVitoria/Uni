@@ -15,7 +15,7 @@ export default function CriacaoEvento() {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 5],
+      aspect: [4, 4],
       quality: 1,
       base64: true
     });
