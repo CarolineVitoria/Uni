@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
 abalogo: {
     paddingTop: '0%',
     backgroundColor: '#2A629A',
-    height: '6%',
+    height: 47,
     flexDirection: 'row',
     alignItems: 'center',
 },
