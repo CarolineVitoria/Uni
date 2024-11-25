@@ -10,6 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function CriacaoEvento() {
   const [nomeEvento, setNomeEvento] = useState('');
   const [descricao, setDescricao] = useState('');
+  const [img64, setimg64] = useState('');
   const [image, setImage] = React.useState(require('../../../assets/imagempadrao.jpg'));
 
   const pickImage = async () => {
@@ -25,6 +26,7 @@ export default function CriacaoEvento() {
 
 
     if (!result.canceled) {
+      setimg64(result.assets[0].base64);
       setImage(result.assets[0].uri);
       console.log(result.assets[0])
       /*const selectedAsset = result.assets[0];
@@ -60,9 +62,8 @@ export default function CriacaoEvento() {
       return;
     }
 
-    // criação do FormData para enviar a imagem e os dados do evento
     const objEvento = {
-      'image':result.assets[0].base64,
+      'image':img64,
       'title': nomeEvento,
       'description': descricao
     }

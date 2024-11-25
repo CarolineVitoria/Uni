@@ -20,7 +20,7 @@ export default function ListaEventos(dadosRecebidos) {
         
         onPress={() => navigation.navigate('Evento', {itemData: { ...item, image: item.image().props.source }})}
         style={styles.itemContainer}>
-            {item.image()}
+            <Image source={{ uri: item.image }} style={styles.image} />
           <View style={{marginTop: 4}}>
             <Text style={{fontWeight: 'bold', fontSize: 20}}>{item.nomeEvento}</Text>
             <Text>{item.Local}</Text>
@@ -39,6 +39,9 @@ const styles = StyleSheet.create({
     borderRadius: 7,
 
 
-  },
+  },image:{
+    width: '100%',
+    height: 200
+  }
 
 });
