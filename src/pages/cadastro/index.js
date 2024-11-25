@@ -3,6 +3,7 @@ import { themas } from "../../global/themas";
 import {
     Text,
     View,
+    Alert,
     Image,
     TextInput,
     TouchableOpacity,
@@ -11,7 +12,39 @@ import {
 } from 'react-native';
 //import Logo from '../../assets/img/logouni.png'
 import {MaterialIcons, FontAwesome} from '@expo/vector-icons';
+import { useNavigation } from "@react-navigation/native";
+//import cadastro
+import {cadastro_user} from "../../api/cadastro";
+import { login } from "../../api/auth";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 export default function Cadastro(){
+    const navigation = useNavigation();
+    
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [cpf, setCpf] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+      
+    const handleCadastro = async () => {
+
+        if (!name || !email || !password || !cpf || !phoneNumber) {
+            Alert.alert("Erro", "Todos os campos são obrigatórios!");
+            return;
+          }
+          try {
+            await cadastro_user(name, email, password, cpf, phoneNumber);
+            Alert.alert("Sucesso", "Cadastro realizado com sucesso!");
+
+            const token = await login(email, password);
+            await AsyncStorage.setItem('access_token', token);
+
+            navigation.navigate("login"); // Navega para a tela de login
+          } catch (error) {
+            Alert.alert("Erro", error.message || "Não foi possível realizar o cadastro.");
+          }
+     };
     return(
    <View style={styles.container}>
     <View style={styles.boxTop}>
@@ -23,6 +56,8 @@ export default function Cadastro(){
     <View style={styles.boxInput}>       
         <TextInput
          style={styles.input}
+         value={email}
+         onChangeText={setEmail}
         />
         <MaterialIcons
         name='email'
@@ -34,6 +69,8 @@ export default function Cadastro(){
     <View style={styles.boxInput}>      
         <TextInput
          style={styles.input}
+         value={cpf}
+         onChangeText={setCpf} 
         />
         <FontAwesome
         name='check-square'
@@ -45,7 +82,8 @@ export default function Cadastro(){
     <View style={styles.boxInput}>       
         <TextInput
          style={styles.input}
-         secureTextEntry
+         value={phoneNumber}
+         onChangeText={setPhoneNumber}
         />
         <MaterialIcons
         name='phone'
@@ -57,6 +95,9 @@ export default function Cadastro(){
     <View style={styles.boxInput}>       
         <TextInput
          style={styles.input}
+         value={password} // Corrigido para o estado de password
+         onChangeText={setPassword}
+         secureTextEntry
         />
         <MaterialIcons
         name='remove-red-eye'
@@ -69,6 +110,8 @@ export default function Cadastro(){
     <View style={styles.boxInput}>       
         <TextInput
          style={styles.input}
+         value={name}
+         onChangeText={setName}
         />
         <FontAwesome
         name='user'
@@ -78,7 +121,7 @@ export default function Cadastro(){
     </View>
     </View>
     <View style={styles.boxBottom}>
-    <TouchableOpacity style={styles.button}>
+    <TouchableOpacity style={styles.button} onPress={handleCadastro}>
             <Text style={styles.textButton}>SEGUIR</Text>
     </TouchableOpacity>
     </View>

@@ -4,6 +4,8 @@ import { Button, Image, View, StyleSheet, TextInput, TouchableOpacity, Text } fr
 import * as ImagePicker from 'expo-image-picker';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Aba from '../../componentes/Aba';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function CriacaoEvento() {
   const [nomeEvento, setNomeEvento] = useState('');
@@ -73,13 +75,19 @@ export default function CriacaoEvento() {
 
     formData.append('nomeEvento', nomeEvento);
     formData.append('descricao', descricao);
-
+    console.log(formData._parts);
     // enviar via fetch para o back 
     try {
-      const response = await fetch('', {
+      const accessToken = await AsyncStorage.getItem('access_token');
+
+      if (!accessToken) {
+      throw new Error('Token não encontrado. Faça login novamente.');
+      }
+      const response = await fetch('http://192.168.18.13:8000/event/', {
         method: 'POST',
         body: formData,
         headers: {
+          'Authorization': `Bearer ${accessToken}`,
           'Content-Type': 'multipart/form-data',
         },
       });

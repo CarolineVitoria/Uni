@@ -16,8 +16,8 @@ import {
 //import * as Animatable from 'react-native-animatable';
 import { useNavigation } from '@react-navigation/native';
 import {MaterialIcons} from '@expo/vector-icons';
-
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {login} from '../../api/auth';
 
 
 export default function Login(){
@@ -25,6 +25,30 @@ export default function Login(){
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     const [loading,setLoading] = useState(false)
+    
+    const handleLogin = async () => {
+        setLoading(true);
+        try {
+            const token = await login(email, password);
+
+            if (token) {
+                // Armazenar o token no AsyncStorage
+                await AsyncStorage.setItem('access_token', token);
+
+                Alert.alert('Sucesso', 'Login bem-sucedido!');
+                navigation.navigate('Home'); // Redireciona para a tela Home
+                console.log('Token salvo:', token);
+            } else {
+                Alert.alert('Erro', 'Token não retornado pela API.');
+            }
+        } catch (error) {
+            Alert.alert('Erro', 'Falha no login');
+            console.error('Erro no login:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+    
         
     return(
    <View style={styles.container}>
@@ -64,7 +88,7 @@ export default function Login(){
     <View style={styles.boxBottom}>
     <TouchableOpacity 
     style={styles.button}
-    onPress={()=>{navigation.navigate('Home')}}
+    onPress={handleLogin}
     >
         {
             loading?
@@ -77,8 +101,7 @@ export default function Login(){
             <View>
           <TouchableOpacity
            style={styles.buttonRegister}
-           onPress={()=>
-            navigation.navigate('cadastro')
+           onPress={() => navigation.navigate('cadastro')
         }
            >
 
