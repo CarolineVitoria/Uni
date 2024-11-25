@@ -61,21 +61,11 @@ export default function CriacaoEvento() {
     }
 
     // criação do FormData para enviar a imagem e os dados do evento
-    const formData = new FormData();
-    
-    const filename = image.substring(image.lastIndexOf('/') + 1);
-    const fileExtension = filename.split('.').pop();
-    const mimeType = `image/${fileExtension}`;
-
-    formData.append('file', {
-      uri: image,
-      name: filename,
-      type: mimeType,
-    });
-
-    formData.append('nomeEvento', nomeEvento);
-    formData.append('descricao', descricao);
-    console.log(formData._parts);
+    const objEvento = {
+      'image':result.assets[0].base64,
+      'title': nomeEvento,
+      'description': descricao
+    }
     // enviar via fetch para o back 
     try {
       const accessToken = await AsyncStorage.getItem('access_token');
@@ -83,26 +73,32 @@ export default function CriacaoEvento() {
       if (!accessToken) {
       throw new Error('Token não encontrado. Faça login novamente.');
       }
-      const response = await fetch('http://192.168.18.13:8000/event/', {
+      const response = await fetch('http://192.168.18.13:8000/event/', {  
         method: 'POST',
-        body: formData,
+        body: JSON.stringify(objEvento), 
         headers: {
+          'Content-Type': 'application/json',
           'Authorization': `Bearer ${accessToken}`,
-          'Content-Type': 'multipart/form-data',
         },
       });
-
-      const result = await response.json();
       
-      if (response.ok) {
-        alert('Evento criado com sucesso!');
-        console.log(result);
-      } else {
-        alert('Erro ao criar evento.');
+      const responseText = await response.text();  // Obtém a resposta como texto
+      console.log('Resposta da API:', responseText);  // Mostra o conteúdo da resposta
+      try {
+        const result = JSON.parse(responseText);  // Tenta fazer o parse manualmente
+        if (response.ok) {
+          alert('Evento criado com sucesso!');
+          console.log(result);
+        } else {
+          alert('Erro ao criar evento.');
+        }
+      } catch (error) {
+        console.error('Erro ao analisar a resposta JSON:', error);
+        alert('Erro ao criar evento. Resposta inválida.');
       }
-    } catch (error) {
-      console.error('Erro ao enviar a imagem:', error);
-      alert('Erro ao enviar a imagem.');
+    }
+    catch(error){
+      console.error(error);
     }
   };
 
